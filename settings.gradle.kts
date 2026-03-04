@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Check Engine Off"
 include(":app")
+include(":auth")
+include(":core")
