@@ -6,7 +6,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 val CheckEngineOffTypography = Typography(
-
     headlineLarge = TextStyle(
         fontSize = 28.sp,
         fontWeight = FontWeight.Bold
