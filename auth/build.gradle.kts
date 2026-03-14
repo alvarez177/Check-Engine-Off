@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":core"))
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.ui.graphics)
     ksp(libs.hilt.compiler)
 
     implementation(platform(libs.androidx.compose.bom))
@@ -51,6 +52,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    implementation(libs.androidx.compose.material.icons.extended)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
