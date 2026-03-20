@@ -1,6 +1,6 @@
 package com.auth.login.presentation.structure
 
-import com.bold.core.Reducer
+import com.bold.core.presentation.Reducer
 
 sealed interface LoginEffect : Reducer.ViewEffect {
     object NavigateToHome : LoginEffect

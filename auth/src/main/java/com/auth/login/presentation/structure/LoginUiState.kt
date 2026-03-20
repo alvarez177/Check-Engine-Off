@@ -1,6 +1,6 @@
 package com.auth.login.presentation.structure
 
-import com.bold.core.Reducer
+import com.bold.core.presentation.Reducer
 
 data class LoginUiState(
     val username: String = "",

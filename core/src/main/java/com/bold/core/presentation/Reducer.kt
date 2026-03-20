@@ -1,4 +1,4 @@
-package com.bold.core
+package com.bold.core.presentation
 
 interface Reducer<State: Reducer.ViewState, UserIntent: Reducer.ViewIntent, Effect: Reducer.ViewEffect> {
 

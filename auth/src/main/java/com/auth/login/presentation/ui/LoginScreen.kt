@@ -38,6 +38,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.auth.R
+import com.bold.core.presentation.ui.components.OutlinePasswordTextField
+import com.bold.core.presentation.ui.components.OutlineUsernameTextField
 import com.bold.core.ui.theme.CheckEngineOffTypography
 
 @Composable

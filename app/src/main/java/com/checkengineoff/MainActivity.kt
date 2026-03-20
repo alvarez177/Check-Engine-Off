@@ -10,7 +10,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.auth.login.presentation.ui.LoginScreen
 import com.bold.core.ui.theme.CheckEngineOffMainTheme
-import com.checkengineoff.ui.theme.CheckEngineOffTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
