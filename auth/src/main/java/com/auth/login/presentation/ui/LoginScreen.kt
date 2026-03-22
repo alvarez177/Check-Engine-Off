@@ -2,6 +2,7 @@ package com.auth.login.presentation.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -44,9 +46,22 @@ import com.bold.core.ui.theme.CheckEngineOffTypography
 
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier
+    onNavigateRegister: () -> Unit
 ) {
+    Scaffold {
+        LoginScreenContent(
+            modifier = Modifier.padding(it),
+            onNavigateRegister = onNavigateRegister
+        )
+    }
 
+}
+
+@Composable
+fun LoginScreenContent(
+    modifier: Modifier,
+    onNavigateRegister: () -> Unit
+) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -117,7 +132,9 @@ fun LoginScreen(
                     )
 
                     OutlinePasswordTextField(
-                        modifier = Modifier.fillMaxWidth().focusRequester(passwordFocusRequester),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(passwordFocusRequester),
                         value = "",
                         hint = "Password",
                         keyboardOptions = KeyboardOptions(
@@ -148,7 +165,8 @@ fun LoginScreen(
                         Text("Don't have an account?")
                         Text(
                             text = " Register",
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.clickable(onClick = { onNavigateRegister() })
                         )
                     }
                 }
@@ -161,6 +179,6 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(
-        modifier = Modifier
+        onNavigateRegister = {}
     )
 }
