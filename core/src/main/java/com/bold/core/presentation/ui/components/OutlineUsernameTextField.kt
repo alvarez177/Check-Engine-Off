@@ -6,6 +6,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +19,8 @@ fun OutlineUsernameTextField(
     modifier: Modifier = Modifier,
     value: String,
     hint: String,
+    isError: Boolean = false,
+    errorMessage: String? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     onValueChange: (String) -> Unit
@@ -36,7 +39,16 @@ fun OutlineUsernameTextField(
                 contentDescription = null
             )
         },
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
+        isError = isError,
+        supportingText = {
+            if (errorMessage != null) {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+        }
     )
 }
 
@@ -47,6 +59,8 @@ fun OutlineUsernameTextFieldPreview() {
         modifier = Modifier,
         value = "",
         hint = "Username",
+        isError = true,
+        errorMessage = "Error",
         onValueChange = {}
     )
 }

@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.auth.login.presentation.ui.LoginScreen
-import com.auth.register.presentation.ui.UserRegistrationScreen
+import com.auth.register.presentation.ui.UserRegistrationScreenRoute
 
 @Composable
 fun AppNavHost(
@@ -23,7 +23,7 @@ fun AppNavHost(
         }
 
         composable(AppScreen.Register.route) {
-            UserRegistrationScreen(
+            UserRegistrationScreenRoute(
                 onBackClick = {
                     navController.popBackStack()
                 }

@@ -23,23 +23,46 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.auth.register.presentation.UserRegistrationViewModel
+import com.auth.register.presentation.structure.UserRegistrationScreenState
 import com.bold.core.presentation.ui.components.OutlineEmailTextField
 import com.bold.core.presentation.ui.components.OutlinePasswordTextField
 import com.bold.core.presentation.ui.components.OutlinePhoneTextField
 import com.bold.core.presentation.ui.components.OutlineUsernameTextField
 import com.bold.core.ui.theme.CheckEngineOffTypography
 
+@Composable
+fun UserRegistrationScreenRoute(
+    onBackClick: () -> Unit
+) {
+    val viewModel: UserRegistrationViewModel = hiltViewModel()
+    val uiState by viewModel.state.collectAsState()
+    UserRegistrationScreen(
+        uiState = uiState,
+        onBackClick = onBackClick,
+        onUsernameChange = viewModel::onUsernameChanged,
+        onUsernameFocusLost = viewModel::onUsernameFocusLost
+    )
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserRegistrationScreen(
-    onBackClick: () -> Unit
+    uiState: UserRegistrationScreenState,
+    onBackClick: () -> Unit,
+    onUsernameChange: (String) -> Unit,
+    onUsernameFocusLost: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -61,7 +84,10 @@ fun UserRegistrationScreen(
         }
     ) {
         UserRegistrationScreenContent(
-            modifier = Modifier.padding(it)
+            uiState = uiState,
+            modifier = Modifier.padding(it),
+            onUsernameChange = onUsernameChange,
+            onUsernameFocusLost = onUsernameFocusLost
         )
 
     }
@@ -69,7 +95,10 @@ fun UserRegistrationScreen(
 
 @Composable
 fun UserRegistrationScreenContent(
-    modifier: Modifier
+    uiState: UserRegistrationScreenState,
+    modifier: Modifier,
+    onUsernameChange: (String) -> Unit,
+    onUsernameFocusLost: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -137,10 +166,19 @@ fun UserRegistrationScreenContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 OutlineUsernameTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    modifier = Modifier.fillMaxWidth()
+                        .onFocusChanged {
+                            if (!it.isFocused) {
+                                onUsernameFocusLost()
+                            }
+                        },
+                    value = uiState.username,
                     hint = "Username",
-                    onValueChange = {}
+                    isError = uiState.usernameError != null,
+                    errorMessage = uiState.usernameError,
+                    onValueChange = {
+                        onUsernameChange(it)
+                    }
                 )
 
                 OutlineEmailTextField(
@@ -179,7 +217,10 @@ fun UserRegistrationScreenContent(
 @Composable
 private fun UserRegistrationScreenPreview() {
     UserRegistrationScreen(
-        onBackClick = {}
+        uiState = UserRegistrationScreenState(),
+        onBackClick = {},
+        onUsernameChange = {},
+        onUsernameFocusLost = {}
     )
 }
 
