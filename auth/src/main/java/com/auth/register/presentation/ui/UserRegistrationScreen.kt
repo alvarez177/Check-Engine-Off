@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.auth.register.presentation.UserRegistrationViewModel
+import com.auth.register.presentation.structure.UserRegistrationIntent
 import com.auth.register.presentation.structure.UserRegistrationScreenState
 import com.bold.core.presentation.ui.components.OutlineEmailTextField
 import com.bold.core.presentation.ui.components.OutlinePasswordTextField
@@ -50,8 +51,7 @@ fun UserRegistrationScreenRoute(
     UserRegistrationScreen(
         uiState = uiState,
         onBackClick = onBackClick,
-        onUsernameChange = viewModel::onUsernameChanged,
-        onUsernameFocusLost = viewModel::onUsernameFocusLost
+        onIntent = viewModel::onIntent,
     )
 }
 
@@ -61,8 +61,7 @@ fun UserRegistrationScreenRoute(
 fun UserRegistrationScreen(
     uiState: UserRegistrationScreenState,
     onBackClick: () -> Unit,
-    onUsernameChange: (String) -> Unit,
-    onUsernameFocusLost: () -> Unit
+    onIntent: (UserRegistrationIntent) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -86,8 +85,7 @@ fun UserRegistrationScreen(
         UserRegistrationScreenContent(
             uiState = uiState,
             modifier = Modifier.padding(it),
-            onUsernameChange = onUsernameChange,
-            onUsernameFocusLost = onUsernameFocusLost
+            onIntent = onIntent,
         )
 
     }
@@ -97,8 +95,7 @@ fun UserRegistrationScreen(
 fun UserRegistrationScreenContent(
     uiState: UserRegistrationScreenState,
     modifier: Modifier,
-    onUsernameChange: (String) -> Unit,
-    onUsernameFocusLost: () -> Unit
+    onIntent: (UserRegistrationIntent) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -168,8 +165,11 @@ fun UserRegistrationScreenContent(
                 OutlineUsernameTextField(
                     modifier = Modifier.fillMaxWidth()
                         .onFocusChanged {
-                            if (!it.isFocused) {
-                                onUsernameFocusLost()
+                            if (it.isFocused && !uiState.hasUsernameBeenFocused) {
+                                onIntent(UserRegistrationIntent.OnUsernameFocusGained)
+                            }
+                            if (!it.isFocused && uiState.hasUsernameBeenFocused) {
+                                onIntent(UserRegistrationIntent.OnUserFocusLost)
                             }
                         },
                     value = uiState.username,
@@ -177,7 +177,7 @@ fun UserRegistrationScreenContent(
                     isError = uiState.usernameError != null,
                     errorMessage = uiState.usernameError,
                     onValueChange = {
-                        onUsernameChange(it)
+                        onIntent(UserRegistrationIntent.OnUserNameChanged(it))
                     }
                 )
 
@@ -219,8 +219,7 @@ private fun UserRegistrationScreenPreview() {
     UserRegistrationScreen(
         uiState = UserRegistrationScreenState(),
         onBackClick = {},
-        onUsernameChange = {},
-        onUsernameFocusLost = {}
+        onIntent = {}
     )
 }
 

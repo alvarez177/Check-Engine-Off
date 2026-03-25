@@ -12,7 +12,8 @@ class UserRegistrationReducer :
         return when (intent) {
             is UserRegistrationIntent.OnUserNameChanged -> {
                 previousState.copy(
-                    username = intent.username
+                    username = intent.username,
+                    usernameError = if (intent.username.isNotEmpty()) null else previousState.usernameError
                 ) to null
             }
             is UserRegistrationIntent.OnEmailChanged -> {
@@ -41,6 +42,12 @@ class UserRegistrationReducer :
                         usernameError = null
                     ) to null
                 }
+            }
+
+            UserRegistrationIntent.OnUsernameFocusGained -> {
+                previousState.copy(
+                    hasUsernameBeenFocused = true
+                ) to null
             }
         }
     }

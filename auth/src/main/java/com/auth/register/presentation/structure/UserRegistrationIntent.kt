@@ -9,4 +9,5 @@ sealed interface UserRegistrationIntent : Reducer.ViewIntent {
     data class OnRegisterClick(val name: String, val email: String, val password: String) : UserRegistrationIntent
 
     object OnUserFocusLost : UserRegistrationIntent
+    object OnUsernameFocusGained : UserRegistrationIntent
 }

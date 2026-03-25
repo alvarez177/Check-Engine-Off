@@ -8,6 +8,7 @@ data class UserRegistrationScreenState(
     val email: String = "",
     val password: String = "",
     val enableRegisterAction: Boolean = false,
+    val hasUsernameBeenFocused: Boolean = false,
     val usernameError: String? = null,
     val emailError: String? = null,
     val phoneNumberError: String? = null,

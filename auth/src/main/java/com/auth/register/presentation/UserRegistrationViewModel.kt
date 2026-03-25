@@ -13,15 +13,5 @@ class UserRegistrationViewModel @Inject constructor() :
         reducer = UserRegistrationReducer()
     ) {
 
-    fun onUsernameChanged(username: String) {
-        sendEvent(
-            event = UserRegistrationIntent.OnUserNameChanged(username)
-        )
-    }
-
-    fun onUsernameFocusLost() {
-        sendEvent(
-            event = UserRegistrationIntent.OnUserFocusLost
-        )
-    }
+    fun onIntent(intent: UserRegistrationIntent) = sendEvent(intent)
 }
