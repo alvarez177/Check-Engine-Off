@@ -163,14 +163,10 @@ fun UserRegistrationScreenContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 OutlineUsernameTextField(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .onFocusChanged {
-                            if (it.isFocused && !uiState.hasUsernameBeenFocused) {
-                                onIntent(UserRegistrationIntent.OnUsernameFocusGained)
-                            }
-                            if (!it.isFocused && uiState.hasUsernameBeenFocused) {
-                                onIntent(UserRegistrationIntent.OnUserFocusLost)
-                            }
+                            onIntent(UserRegistrationIntent.OnUsernameFocus(isFocused = it.isFocused))
                         },
                     value = uiState.username,
                     hint = "Username",
