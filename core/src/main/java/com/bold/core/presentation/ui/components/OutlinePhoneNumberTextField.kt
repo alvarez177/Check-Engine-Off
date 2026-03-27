@@ -6,6 +6,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ fun OutlinePhoneTextField(
     modifier: Modifier = Modifier,
     value: String,
     hint: String = "Phone number",
+    errorMessage: String? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
         keyboardType = KeyboardType.Phone,
         imeAction = ImeAction.Next
@@ -36,7 +38,15 @@ fun OutlinePhoneTextField(
         },
         label = { Text(hint) },
         singleLine = true,
-
+        isError = errorMessage != null,
+        supportingText = {
+            if (errorMessage != null) {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+        },
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
 

@@ -178,28 +178,47 @@ fun UserRegistrationScreenContent(
                 )
 
                 OutlineEmailTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    modifier = Modifier.fillMaxWidth()
+                        .onFocusChanged {
+                            onIntent(UserRegistrationIntent.OnEmailFocus(isFocused = it.isFocused))
+                        },
+                    value = uiState.email,
                     hint = "Email",
-                    onValueChange = {}
+                    errorMessage = uiState.emailError,
+                    onValueChange = {
+                        onIntent(UserRegistrationIntent.OnEmailChanged(it))
+                    }
                 )
 
                 OutlinePhoneTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    modifier = Modifier.fillMaxWidth()
+                        .onFocusChanged {
+                            onIntent(UserRegistrationIntent.OnPhoneNumberFocus(isFocused = it.isFocused))
+                        },
+                    value = uiState.phoneNumber,
+                    errorMessage = uiState.phoneNumberError,
                     hint = "Phone",
-                    onValueChange = {}
+                    onValueChange = {
+                        onIntent(UserRegistrationIntent.OnPhoneNumberChanged(it))
+                    }
                 )
 
                 OutlinePasswordTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    modifier = Modifier.fillMaxWidth()
+                        .onFocusChanged {
+                            onIntent(UserRegistrationIntent.OnPasswordFocus(isFocused = it.isFocused))
+                        },
+                    value = uiState.password,
                     hint = "Password",
-                    onValueChange = {}
+                    errorMessage = uiState.passwordError,
+                    onValueChange = {
+                        onIntent(UserRegistrationIntent.OnPasswordChanged(it))
+                    }
                 )
 
                 Button(
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = uiState.enableRegisterAction,
                     onClick = {}
                 ) {
                     Text("Create account")

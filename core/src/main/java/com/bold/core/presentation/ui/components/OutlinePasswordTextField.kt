@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +29,7 @@ fun OutlinePasswordTextField(
     modifier: Modifier,
     value: String,
     hint: String,
+    errorMessage: String? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     onValueChange: (String) -> Unit
@@ -40,6 +42,15 @@ fun OutlinePasswordTextField(
         onValueChange = onValueChange,
         label = { Text(hint) },
         singleLine = true,
+        isError = errorMessage != null,
+        supportingText = {
+            if (errorMessage != null) {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+        },
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         leadingIcon = {
