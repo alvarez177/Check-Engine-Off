@@ -25,12 +25,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -39,19 +42,41 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.auth.R
+import com.auth.login.presentation.LoginViewModel
+import com.auth.login.presentation.structure.LoginIntent
+import com.auth.login.presentation.structure.LoginUiState
 import com.bold.core.presentation.ui.components.OutlinePasswordTextField
 import com.bold.core.presentation.ui.components.OutlineUsernameTextField
 import com.bold.core.ui.theme.CheckEngineOffTypography
 
 @Composable
+fun LoginScreenRoute(
+    onNavigateRegister: () -> Unit,
+) {
+    val viewModel: LoginViewModel = hiltViewModel()
+    val uiState by viewModel.state.collectAsState()
+    LoginScreen(
+        uiState = uiState,
+        onNavigateRegister = onNavigateRegister,
+        onIntent = viewModel::onIntent
+    )
+
+}
+
+@Composable
 fun LoginScreen(
-    onNavigateRegister: () -> Unit
+    uiState: LoginUiState,
+    onNavigateRegister: () -> Unit,
+    onIntent: (LoginIntent) -> Unit
 ) {
     Scaffold {
         LoginScreenContent(
+            uiState = uiState,
             modifier = Modifier.padding(it),
-            onNavigateRegister = onNavigateRegister
+            onNavigateRegister = onNavigateRegister,
+            onIntent = onIntent
         )
     }
 
@@ -59,8 +84,10 @@ fun LoginScreen(
 
 @Composable
 fun LoginScreenContent(
+    uiState: LoginUiState,
     modifier: Modifier,
-    onNavigateRegister: () -> Unit
+    onNavigateRegister: () -> Unit,
+    onIntent: (LoginIntent) -> Unit
 ) {
     Box(
         modifier = modifier
@@ -116,9 +143,14 @@ fun LoginScreenContent(
                     val keyboardController = LocalSoftwareKeyboardController.current
 
                     OutlineUsernameTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = "",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .onFocusChanged {
+                                onIntent(LoginIntent.OnUsernameFocus(isFocused = it.isFocused))
+                            },
+                        value = uiState.username,
                         hint = "Username",
+                        errorMessage = uiState.usernameError,
                         keyboardOptions = KeyboardOptions(
                             imeAction = ImeAction.Next
                         ),
@@ -128,25 +160,31 @@ fun LoginScreenContent(
                             }
                         ),
                         onValueChange = {
+                            onIntent(LoginIntent.OnUsernameChanged(it))
                         }
                     )
 
                     OutlinePasswordTextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .focusRequester(passwordFocusRequester),
-                        value = "",
+                            .focusRequester(passwordFocusRequester)
+                            .onFocusChanged {
+                                onIntent(LoginIntent.OnPasswordFocus(isFocused = it.isFocused))
+                            },
+                        value = uiState.password,
                         hint = "Password",
+                        errorMessage = uiState.passwordError,
                         keyboardOptions = KeyboardOptions(
                             imeAction = ImeAction.Done
                         ),
                         keyboardActions = KeyboardActions(
                             onDone = {
                                 keyboardController?.hide()
-                                // viewModel.login()
                             }
                         ),
-                        onValueChange = { }
+                        onValueChange = {
+                            onIntent(LoginIntent.OnPasswordChanged(it))
+                        }
                     )
 
                     Text(
@@ -156,7 +194,10 @@ fun LoginScreenContent(
 
                     Button(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = {}
+                        enabled = uiState.enableLoginAction,
+                        onClick = {
+                            onIntent(LoginIntent.OnLoginClicked)
+                        }
                     ) {
                         Text("Login")
                     }
@@ -179,6 +220,8 @@ fun LoginScreenContent(
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(
-        onNavigateRegister = {}
+        uiState = LoginUiState(),
+        onNavigateRegister = {},
+        onIntent = {}
     )
 }

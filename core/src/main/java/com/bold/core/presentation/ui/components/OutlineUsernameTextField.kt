@@ -19,7 +19,6 @@ fun OutlineUsernameTextField(
     modifier: Modifier = Modifier,
     value: String,
     hint: String,
-    isError: Boolean = false,
     errorMessage: String? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -40,7 +39,7 @@ fun OutlineUsernameTextField(
             )
         },
         shape = RoundedCornerShape(12.dp),
-        isError = isError,
+        isError = errorMessage != null,
         supportingText = {
             if (errorMessage != null) {
                 Text(
@@ -59,7 +58,6 @@ fun OutlineUsernameTextFieldPreview() {
         modifier = Modifier,
         value = "",
         hint = "Username",
-        isError = true,
         errorMessage = "Error",
         onValueChange = {}
     )

@@ -170,7 +170,6 @@ fun UserRegistrationScreenContent(
                         },
                     value = uiState.username,
                     hint = "Username",
-                    isError = uiState.usernameError != null,
                     errorMessage = uiState.usernameError,
                     onValueChange = {
                         onIntent(UserRegistrationIntent.OnUserNameChanged(it))

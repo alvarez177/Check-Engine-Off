@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.auth.login.presentation.ui.LoginScreen
+import com.auth.login.presentation.ui.LoginScreenRoute
 import com.auth.register.presentation.ui.UserRegistrationScreenRoute
 
 @Composable
@@ -17,8 +17,10 @@ fun AppNavHost(
     ) {
 
         composable(AppScreen.Login.route) {
-            LoginScreen(
-                onNavigateRegister = { navController.navigate("register") }
+            LoginScreenRoute(
+                onNavigateRegister = {
+                    navController.navigate("register")
+                }
             )
         }
 
