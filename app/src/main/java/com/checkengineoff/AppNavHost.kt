@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.auth.login.presentation.ui.LoginScreenRoute
-import com.auth.register.presentation.ui.UserRegistrationScreenRoute
+import com.checkengineoff.auth.login.presentation.ui.LoginScreenRoute
+import com.checkengineoff.auth.register.presentation.ui.UserRegistrationScreenRoute
 
 @Composable
 fun AppNavHost(

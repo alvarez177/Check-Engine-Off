@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.bold.core"
+    namespace = "com.checkengineoff.core"
     compileSdk = 36
 
     defaultConfig {

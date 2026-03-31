@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.auth"
+    namespace = "com.checkengineoff.auth"
     compileSdk = 36
 
     defaultConfig {

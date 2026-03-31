@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
-import com.bold.core.ui.theme.CheckEngineOffMainTheme
+import com.checkengineoff.core.ui.theme.CheckEngineOffMainTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
